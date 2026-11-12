@@ -3,24 +3,26 @@ FROM selenium/standalone-chrome:4.27.0
 
 USER root
 
-# Install Maven
+# Install Java 17 and Maven
 RUN apt-get update && \
-    apt-get install -y maven && \
+    apt-get install -y openjdk-17-jdk maven && \
     rm -rf /var/lib/apt/lists/*
+
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 WORKDIR /app
 
-# Copy Maven configuration and TestNG suite
+# Copy project files
 COPY pom.xml .
 COPY testng.xml .
-
-# Copy HTML calculator and Java test files
 COPY webpage ./webpage
 COPY src ./src
 
-# Run Selenium TestNG tests
-RUN mvn -B clean test
+# Run TestNG Selenium test cases
+RUN mvn clean test
 
-# Default command when the container starts
-CMD ["mvn", "-B", "test"]
+# Default container command
+CMD ["mvn", "test"]
+
 
