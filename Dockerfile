@@ -1,23 +1,26 @@
 
-FROM maven:3.9.9-eclipse-temurin-17
+FROM selenium/standalone-chrome:4.27.0
 
-# Install Chromium and its matching driver
-RUN apt-get update && apt-get install -y \
-    chromium \
-    chromium-driver \
-    && rm -rf /var/lib/apt/lists/*
+USER root
 
-ENV CHROME_BIN=/usr/bin/chromium
+# Install Maven
+RUN apt-get update && \
+    apt-get install -y maven && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy the project files
+# Copy Maven configuration and TestNG suite
 COPY pom.xml .
 COPY testng.xml .
+
+# Copy HTML calculator and Java test files
 COPY webpage ./webpage
 COPY src ./src
 
-# Run Selenium TestNG tests during image build
-RUN mvn clean test
+# Run Selenium TestNG tests
+RUN mvn -B clean test
 
-CMD ["mvn", "test"]
+# Default command when the container starts
+CMD ["mvn", "-B", "test"]
+
