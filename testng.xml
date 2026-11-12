@@ -1,0 +1,12 @@
+
+<suite name="Calculator Test Suite">
+
+    <test name="Calculator Functional Tests">
+
+        <classes>
+            <class name="com.example.CalculatorTest"/>
+        </classes>
+
+    </test>
+
+</suite>

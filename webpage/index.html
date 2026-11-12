@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+</head>
+<body>
+
+<h2>Simple Calculator</h2>
+
+<input type="number" id="num1" placeholder="First number">
+<br><br>
+
+<input type="number" id="num2" placeholder="Second number">
+<br><br>
+
+<button data-op="add" onclick="calculate('add')">Addition</button>
+
+<button data-op="subtract" onclick="calculate('subtract')">Subtraction</button>
+
+<button data-op="multiply" onclick="calculate('multiply')">Multiplication</button>
+
+<button data-op="divide" onclick="calculate('divide')">Division</button>
+
+<p id="result">Result:</p>
+
+<script>
+
+function calculate(operation) {
+
+    let first = document.getElementById("num1").value;
+    let second = document.getElementById("num2").value;
+
+    if (first === "" || second === "") {
+        document.getElementById("result").innerText =
+            "Please enter both numbers.";
+        return;
+    }
+
+    let a = Number(first);
+    let b = Number(second);
+    let result;
+
+    switch(operation) {
+
+        case "add":
+            result = a + b;
+            break;
+
+        case "subtract":
+            result = a - b;
+            break;
+
+        case "multiply":
+            result = a * b;
+            break;
+
+        case "divide":
+            if (b === 0) {
+                document.getElementById("result").innerText =
+                    "Cannot divide by zero.";
+                return;
+            }
+            result = a / b;
+            break;
+    }
+
+    result = Number(result.toPrecision(12));
+
+    document.getElementById("result").innerText =
+        "Result: " + result;
+}
+
+</script>
+
+</body>
+</html>
